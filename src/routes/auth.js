@@ -33,7 +33,7 @@ route.post('/register', async (req, res) => {
     }
 });
 
-route.post('/login' ,async (req, res) => {
+route.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email }).select('+password');
@@ -54,9 +54,11 @@ route.post('/login' ,async (req, res) => {
     }
 });
 
-route.get('/', auth ,async (req, res) => {
-    
-    res.send({status: 'ok'});
+route.get('/', auth, async (req, res) => {
+    const user = await User.findOne({ _id: req.user_id });
+
+    res.send({ user });
+
 });
 
 module.exports = route;
