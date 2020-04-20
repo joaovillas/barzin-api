@@ -25,7 +25,7 @@ route.post('/register', async (req, res) => {
         }
 
         const user = await User.create(req.body);
-        return res.send({ user, token: generateToken(user._id) });
+        return res.status(201).send({ user, token: generateToken(user._id) });
     } catch (exception) {
         // Treat error and send to discord
         console.log(exception)
