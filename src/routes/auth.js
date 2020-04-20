@@ -9,7 +9,7 @@ import auth from '../middlewares/auth';
 const route = Router();
 
 function generateToken(params = {}) {
-    return jwt.sign({ id: user._id }, keys.JWT_SECRET, { expiresIn: 86400 });
+    return jwt.sign({ params }, keys.JWT_SECRET, { expiresIn: 86400 });
 }
 
 
@@ -25,7 +25,7 @@ route.post('/register', async (req, res) => {
         }
 
         const user = await User.create(req.body);
-        return res.send({ user, token: generateToken({ id: user._id }) });
+        return res.send({ user, token: generateToken(user._id) });
     } catch (exception) {
         // Treat error and send to discord
         console.log(exception)
@@ -47,18 +47,16 @@ route.post('/login', async (req, res) => {
         }
 
 
-        return res.send({ user, token: generateToken({ id: user._id }) });
+        return res.send({ user, token: generateToken(user._id) });
 
     } catch (exception) {
         res.send(500).send({ error: 'erro desconhecido, avise ao suporte!' });
     }
 });
 
-route.get('/', auth, async (req, res) => {
+route.get('/', auth, async (req, res) => {  
     const user = await User.findOne({ _id: req.user_id });
-
     res.send({ user });
-
 });
 
 module.exports = route;

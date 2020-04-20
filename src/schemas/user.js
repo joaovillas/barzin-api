@@ -24,7 +24,6 @@ const UserSchema = new mongoose.Schema({
     },
     user_type: {
         type: Number,
-        required: true,
     },
     confirmed_email: {
         type: Boolean,
